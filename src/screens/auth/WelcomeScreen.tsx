@@ -14,7 +14,11 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 export default function WelcomeScreen() {
   const blurhash = "LVL}85xa+?%0$yRTn5WB{]V@pIr=";
 
-  const { navigate:navigateAuth }: NavigationProp<SplashNavigationType> = useNavigation();
+  const { navigate: navigateAuth }: NavigationProp<AuthNavigationType> =
+    useNavigation();
+
+  const { navigate: navigateTab }: NavigationProp<TabNavigationType> =
+    useNavigation();
 
   return (
     <SafeAreaView className="flex-1 justify-center items-center bg-white p-2">
@@ -52,7 +56,7 @@ export default function WelcomeScreen() {
           <Animated.View
             entering={FadeInDown.duration(100).delay(300).springify()}
           >
-            <Button title="Login" />
+            <Button title="Login" action={() => navigateAuth("Login")} />
           </Animated.View>
         </View>
 
@@ -60,7 +64,7 @@ export default function WelcomeScreen() {
           <Animated.View
             entering={FadeInDown.duration(100).delay(300).springify()}
           >
-            <ButtonOutline title="Sign Up" />
+            <ButtonOutline title="Sign Up" action={() => navigateAuth("Register")} />
           </Animated.View>
         </View>
 
