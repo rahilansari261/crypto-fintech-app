@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import React from "react";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -13,15 +14,38 @@ import ButtonOutline from "@/components/ButtonOutline";
 import Breaker from "@/components/Breaker";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import useSupabaseAuth from "../../../hooks/useSupabaseAuth";
+import { useUserStore } from "../../../store/useUserStore";
 
 export default function LoginScreen() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
-  const { height, width } = Dimensions.get("window");
+  const { height } = Dimensions.get("window");
 
   const { navigate: navigateAuth }: NavigationProp<AuthNavigationType> =
     useNavigation();
+
+  const { signInWithEmail } = useSupabaseAuth();
+  const { setSession, setUser } = useUserStore();
+
+  async function handleLogin() {
+    if (!email || !password) return;
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await signInWithEmail(email, password);
+      if (error) {
+        setIsLoading(false);
+        Alert.alert(error.message);
+      }
+      if (data.session && data.user) setSession(data.session);
+      setUser(data.user);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <View className="flex-1 ">
       {isLoading && (
@@ -87,7 +111,7 @@ export default function LoginScreen() {
             className={""}
             entering={FadeInDown.duration(100).delay(300).springify()}
           >
-            <Button title="Login" action={() => setIsLoading(true)} />
+            <Button title="Login" action={handleLogin} />
           </Animated.View>
 
           <View className="w-full justify-start">
