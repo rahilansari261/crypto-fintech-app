@@ -18,8 +18,8 @@ import useSupabaseAuth from "../../../hooks/useSupabaseAuth";
 import { useUserStore } from "../../../store/useUserStore";
 
 export default function LoginScreen() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("rahil@gmail.com");
+  const [password, setPassword] = React.useState("123456");
   const [isLoading, setIsLoading] = React.useState(false);
   const { height } = Dimensions.get("window");
 

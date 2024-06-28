@@ -41,7 +41,7 @@ export default function useSupabaseAuth() {
     if (!session?.user) throw new Error("User is not logged in");
     const { data, error, status } = await supabase
       .from("profiles")
-      .select("username , full_name, avatar_url, website ")
+      .select("username , full_name, avatar_url, website, email ")
       .eq("id", session?.user.id)
       .single();
 

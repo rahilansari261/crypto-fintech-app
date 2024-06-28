@@ -27,7 +27,7 @@ export default function SplashScreen() {
           <View className="pr-2">
             <View className="w-20 h-20 overflow-hidden ">
               <Image
-                source={require("../../../assets/images/react-logo.png")}
+                source={require("../../../assets/splash.png")}
                 placeholder={blurhash}
                 transition={1000}
                 contentFit="cover"
